@@ -9,6 +9,16 @@
                 tools:background="@drawable/bg_gradient">
 
     <TextView
+        android:id="@+id/hourDayLabel"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@android:color/white"
+        android:textSize="23sp"
+        tools:text="WEDNESDAY"/>
+
+    <TextView
         android:id="@+id/timeLabel"
         android:layout_width="80dp"
         android:layout_height="wrap_content"

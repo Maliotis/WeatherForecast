@@ -10,7 +10,7 @@
     android:paddingBottom="4dp"
     android:paddingTop="4dp"
 
-    tools:background="#ffaa00">
+    tools:background="@drawable/bg_gradient">
 
     <ImageView
         android:id="@+id/circleImageView"
@@ -50,7 +50,7 @@
         android:layout_alignStart="@id/circleImageView"
         android:layout_alignEnd="@id/circleImageView"
         android:gravity="center"
-        android:textColor="#f25019"
+        android:textColor="@android:color/black"
         tools:text="100"
 
         />

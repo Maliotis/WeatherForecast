@@ -60,7 +60,7 @@ public class Hour implements Parcelable{
     }
 
     public String getHour(){
-        SimpleDateFormat formatter = new SimpleDateFormat("h a");
+        SimpleDateFormat formatter = new SimpleDateFormat("H:mm");
         Date date = new Date(mTime * 1000);
         return formatter.format(date);
     }

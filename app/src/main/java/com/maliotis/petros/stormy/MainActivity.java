@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String DAILY_FORECAST = "DAILY_FORECAST";
     public static final String HOURLY_FORECAST = "HOURLY_FORECAST";
+    public static final String HOURLY_DAY_FORECAST = "HOURLY_DAY_FORECAST";
     private Forecast mForecast;
 
     TextView mTimeLabel;
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, HourlyForecastActivity.class);
                 intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
+                intent.putExtra(HOURLY_DAY_FORECAST,mForecast.getDailyForecast());
                 startActivity(intent);
             }
         });

@@ -9,16 +9,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.maliotis.petros.stormy.weather.Day;
 import com.maliotis.petros.stormy.weather.Hour;
 
 public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder> {
 
     private Hour[] mHours;
     private Context mContext;
+    private Day[] mDays;
+    String nextDay;
+    String nnDay;
+    int counter=-1;
 
-    public HourAdapter(Context context,Hour[] hours){
+    public HourAdapter(Context context,Hour[] hours,Day[] days){
         mContext = context;
         mHours = hours;
+        mDays = days;
+        nextDay = mDays[1].getDayOfTheWeek();
+        nnDay = mDays[2].getDayOfTheWeek();
     }
 
     @Override
@@ -44,6 +52,9 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
         public TextView mSummaryLabel;
         public TextView mTemperatureLabel;
         public ImageView mIconImageView;
+        public TextView mHourDay;
+
+
 
         public HourViewHolder(View itemView) {
             super(itemView);
@@ -52,15 +63,37 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
             mSummaryLabel  = (TextView) itemView.findViewById(R.id.summaryLabel);
             mTemperatureLabel = (TextView) itemView.findViewById(R.id.temperatureLabel);
             mIconImageView = (ImageView) itemView.findViewById(R.id.iconImageView);
+            mHourDay = (TextView) itemView.findViewById(R.id.hourDayLabel);
+
 
             itemView.setOnClickListener(this);
         }
 
         public void bindHour(Hour hour){
-            mTimeLabel.setText(hour.getHour());
-            mSummaryLabel.setText(hour.getSummary());
-            mTemperatureLabel.setText(hour.getTemperature()+"");
-            mIconImageView.setImageResource(hour.getIconId());
+
+            if(hour.getHour().equals("0:00")){
+                mHourDay.setText("");
+                mTimeLabel.setText("");
+                mSummaryLabel.setText("");
+                mTemperatureLabel.setText("");
+                mIconImageView.setImageResource(android.R.color.transparent);
+                mHourDay.setText("");
+
+                ++counter;
+                if(counter%2==0)
+                mHourDay.setText(nextDay);
+                else if(counter%2==1){
+                    mHourDay.setText(nnDay);
+                }
+
+            }
+            else {
+                mHourDay.setText("");
+                mTimeLabel.setText(hour.getHour());
+                mSummaryLabel.setText(hour.getSummary());
+                mTemperatureLabel.setText(hour.getTemperature() + "");
+                mIconImageView.setImageResource(hour.getIconId());
+            }
         }
 
         @Override
