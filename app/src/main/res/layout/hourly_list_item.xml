@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_height="wrap_content"
+                tools:background="@drawable/bg_gradient">
+
+    <TextView
+        android:id="@+id/timeLabel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        tools:text="12 PM"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"/>
+
+    <ImageView
+        android:id="@+id/iconImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@+id/timeLabel"
+        app:srcCompat="@drawable/partly_cloudy"/>
+
+    <TextView
+        android:id="@+id/temperatureLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        tools:text="100"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/summaryLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textColor="@android:color/white"
+        android:layout_marginStart="4dp"
+        android:layout_toEndOf="@+id/iconImageView"
+        android:layout_toStartOf="@id/temperatureLabel"
+        android:paddingStart="16dp"
+        android:paddingRight="16dp"
+        tools:text="Partly Cloudy"/>
+</RelativeLayout>
