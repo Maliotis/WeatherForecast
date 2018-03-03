@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Hour implements Parcelable{
 
@@ -63,6 +64,13 @@ public class Hour implements Parcelable{
         SimpleDateFormat formatter = new SimpleDateFormat("H:mm");
         Date date = new Date(mTime * 1000);
         return formatter.format(date);
+    }
+
+    public String getDayOfTheWeekH(){
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
+        formatter.setTimeZone(TimeZone.getTimeZone(mTimezone));
+        Date dateTime = new Date(mTime * 1000);
+        return formatter.format(dateTime);
     }
 
     @Override

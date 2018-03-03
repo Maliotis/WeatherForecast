@@ -17,16 +17,11 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
     private Hour[] mHours;
     private Context mContext;
     private Day[] mDays;
-    String nextDay;
-    String nnDay;
-    int counter=-1;
 
     public HourAdapter(Context context,Hour[] hours,Day[] days){
         mContext = context;
         mHours = hours;
         mDays = days;
-        nextDay = mDays[1].getDayOfTheWeek();
-        nnDay = mDays[2].getDayOfTheWeek();
     }
 
     @Override
@@ -39,6 +34,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
     @Override
     public void onBindViewHolder(HourViewHolder holder, int position) {
         holder.bindHour(mHours[position]);
+
     }
 
     @Override
@@ -53,7 +49,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
         public TextView mTemperatureLabel;
         public ImageView mIconImageView;
         public TextView mHourDay;
-
+        public TextView mDegree;
 
 
         public HourViewHolder(View itemView) {
@@ -64,6 +60,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
             mTemperatureLabel = (TextView) itemView.findViewById(R.id.temperatureLabel);
             mIconImageView = (ImageView) itemView.findViewById(R.id.iconImageView);
             mHourDay = (TextView) itemView.findViewById(R.id.hourDayLabel);
+            mDegree = (TextView) itemView.findViewById(R.id.degreeLabel);
 
 
             itemView.setOnClickListener(this);
@@ -78,17 +75,13 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
                 mTemperatureLabel.setText("");
                 mIconImageView.setImageResource(android.R.color.transparent);
                 mHourDay.setText("");
-
-                ++counter;
-                if(counter%2==0)
-                mHourDay.setText(nextDay);
-                else if(counter%2==1){
-                    mHourDay.setText(nnDay);
-                }
-
+                mDegree.setText("");
+                //setting the day of the week.
+                mHourDay.setText(hour.getDayOfTheWeekH());
             }
             else {
                 mHourDay.setText("");
+                mDegree.setText("o");
                 mTimeLabel.setText(hour.getHour());
                 mSummaryLabel.setText(hour.getSummary());
                 mTemperatureLabel.setText(hour.getTemperature() + "");

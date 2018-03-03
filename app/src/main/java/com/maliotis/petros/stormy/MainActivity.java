@@ -1,6 +1,8 @@
 package com.maliotis.petros.stormy;
 
 import android.Manifest;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,10 +12,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.RequiresPermission;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.maliotis.petros.stormy.animations.FadeAnimation;
 import com.maliotis.petros.stormy.weather.Current;
 import com.maliotis.petros.stormy.weather.Day;
 import com.maliotis.petros.stormy.weather.Forecast;
@@ -46,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static final String HOURLY_DAY_FORECAST = "HOURLY_DAY_FORECAST";
     private Forecast mForecast;
 
-    TextView mTimeLabel;
     TextView mLocationLabel;
     TextView mTemperatureLabel;
     TextView mHumidityValue;
@@ -54,13 +56,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     TextView mSummaryLabel;
     ImageView mIconImageView;
     ImageView mRefreshImageView;
-    ProgressBar mProgressBar;
     ConstraintLayout mLayout;
     LocationManager locationManager;
     Button dailyButton;
     Button hourlyButton;
     double mLatitude;
     double mLongitude;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
@@ -68,43 +70,30 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        mTimeLabel = (TextView) findViewById(R.id.timeLabel);
         mTemperatureLabel = (TextView) findViewById(R.id.temperatureLabel);
         mHumidityValue = (TextView) findViewById(R.id.humidityValue);
         mPrecipValue = (TextView) findViewById(R.id.precipValue);
         mSummaryLabel = (TextView) findViewById(R.id.summaryLabel);
         mIconImageView = (ImageView) findViewById(R.id.iconImageView);
-        mRefreshImageView = (ImageView) findViewById(R.id.refreshImageView);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mLayout = (ConstraintLayout) findViewById(R.id.ConstraintLayout);
         mLocationLabel = (TextView) findViewById(R.id.locationLabel);
         dailyButton = (Button) findViewById(R.id.dailyButton);
         hourlyButton = (Button) findViewById(R.id.hourlyButton);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
 
+        mSwipeRefreshLayout.setProgressViewOffset(false,-150,5);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             Log.v("MYTAG", "Something went wrong");
             return;
         } else {
             locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 100, this);
         }
-        //locationManager...
-
 
         //ButterKnife.bind(this);
-        mProgressBar.setVisibility(View.INVISIBLE);
 
-        mRefreshImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GPS();
-                getForecast(mLatitude, mLongitude);
-            }
-        });
 
         dailyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,8 +115,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         });
 
-        getForecast(mLatitude,mLongitude);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                GPS();
+                getForecast(mLatitude,mLongitude);
+            }
+        });
 
+        getForecast(mLatitude,mLongitude);
+        animate();
     }
 
     private void getForecast(double latitude, double longitude) {
@@ -139,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         String ForecastUrl = "https://api.darksky.net/forecast/" + ApiKey + "/" + latitude + "," + longitude;
 
         if (isNetworkAvailable()) {
-            toggleRefresh();
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder().url(ForecastUrl).build();
             Call call = client.newCall(request);
@@ -149,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            toggleRefresh();
+
                         }
                     });
                     alertUserAboutError();
@@ -160,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            toggleRefresh();
+
                         }
                     });
                     try {
@@ -172,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                                 @Override
                                 public void run() {
                                     updateDisplay();
+                                    animate();
+                                    mSwipeRefreshLayout.setRefreshing(false);
                                 }
                             });
 
@@ -190,14 +188,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
-    private void toggleRefresh() {
-        if (mProgressBar.getVisibility() == View.INVISIBLE) {
-            mProgressBar.setVisibility(View.VISIBLE);
-            mRefreshImageView.setVisibility(View.INVISIBLE);
-        } else {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            mRefreshImageView.setVisibility(View.VISIBLE);
-        }
+
+    private void stopRefresh(){
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void updateDisplay() {
@@ -207,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         int humidityI = (int) humidity;
 
         mTemperatureLabel.setText(current.getTemperature() + "");
-        mTimeLabel.setText("At " + current.getFormatedTime() + " it will be");
+//        mTimeLabel.setText("At " + current.getFormatedTime() + " it will be");
         mHumidityValue.setText(humidityI+"%");
         mPrecipValue.setText(current.getPrecipChance() + "%");
         mSummaryLabel.setText(current.getSummary());
@@ -313,7 +306,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
-
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -321,6 +313,24 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 
+    }
+
+    private void animate() {
+
+        FadeAnimation fadeAnimation = new FadeAnimation();
+        fadeAnimation.add(hourlyButton);
+        fadeAnimation.add(dailyButton);
+        fadeAnimation.add(mTemperatureLabel);
+        fadeAnimation.add(mPrecipValue);
+        fadeAnimation.add(mHumidityValue);
+        fadeAnimation.add(mIconImageView);
+        fadeAnimation.add(mLocationLabel);
+        fadeAnimation.add(mSummaryLabel);
+        fadeAnimation.add(findViewById(R.id.degreeImageView));
+        fadeAnimation.add(findViewById(R.id.humidityLabel));
+        fadeAnimation.add(findViewById(R.id.precipLabel));
+        AnimatorSet set = fadeAnimation.getAnimatorSet();
+        set.start();
     }
 
 
