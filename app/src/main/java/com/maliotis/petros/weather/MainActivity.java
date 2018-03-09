@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     SwipeRefreshLayout mSwipeRefreshLayout;
     Geocoder mGeocoder;
     List<Address> addresses;
+    String name;
 
 
 
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         for(int i=0;i<addresses.size();i++) {
-            String name = addresses.get(0).getLocality();
+            name = addresses.get(0).getLocality();
             Log.d("COUNTRY",name);
         }
     }
@@ -214,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
         mPrecipValue.setText(current.getPrecipChance() + "%");
         mSummaryLabel.setText(current.getSummary());
         mLocationLabel.setText(current.getTimeZone());
+        mLocationLabel.setText(name);
 
         Drawable drawable = getResources().getDrawable(current.getIconId());
         mIconImageView.setImageDrawable(drawable);
