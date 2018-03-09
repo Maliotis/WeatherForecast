@@ -92,6 +92,11 @@ public class Current {
     }
 
     public void setSummary(String summary) {
-        mSummary = summary;
+        if(summary.equals("Clear")){
+            mSummary = "Clear weather";
+        }
+        else {
+            mSummary = summary;
+        }
     }
 }

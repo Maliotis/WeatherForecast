@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     Geocoder mGeocoder;
     List<Address> addresses;
     String name;
+    String code;
 
 
 
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         }
         for(int i=0;i<addresses.size();i++) {
             name = addresses.get(0).getLocality();
+            code = addresses.get(0).getCountryName();
             Log.d("COUNTRY",name);
         }
     }
@@ -215,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
         mPrecipValue.setText(current.getPrecipChance() + "%");
         mSummaryLabel.setText(current.getSummary());
         mLocationLabel.setText(current.getTimeZone());
-        mLocationLabel.setText(name);
+        mLocationLabel.setText(code+"/"+name);
 
         Drawable drawable = getResources().getDrawable(current.getIconId());
         mIconImageView.setImageDrawable(drawable);
