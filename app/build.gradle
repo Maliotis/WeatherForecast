@@ -6,8 +6,8 @@ android {
         applicationId "com.maliotis.petros.stormy"
         minSdkVersion 22
         targetSdkVersion 25
-        versionCode 4
-        versionName "1.4"
+        versionCode 7
+        versionName "1.6.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

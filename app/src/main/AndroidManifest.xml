@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.maliotis.petros.stormy">
+          package="com.maliotis.petros.weather">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".Main2Activity">
+            android:name="com.maliotis.petros.weather.Main2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name = "android.intent.category.LAUNCHER"/>
@@ -26,15 +26,15 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.maliotis.petros.weather.MainActivity"
             android:screenOrientation="portrait">
 
         </activity>
         <activity
-            android:name=".DailyForecastActivity">
+            android:name="com.maliotis.petros.weather.DailyForecastActivity">
         </activity>
         <activity
-            android:name=".HourlyForecastActivity">
+            android:name="com.maliotis.petros.weather.HourlyForecastActivity">
         </activity>
 
     </application>
