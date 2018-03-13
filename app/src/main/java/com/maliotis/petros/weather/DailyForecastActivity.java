@@ -21,6 +21,8 @@ public class DailyForecastActivity extends AppCompatActivity {
     public TextView mTextView;
     public TextView locationLabel;
     String timezone;
+    String name;
+    String code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,9 @@ public class DailyForecastActivity extends AppCompatActivity {
         mDays = Arrays.copyOf(parcelables , parcelables.length , Day[].class);
 
         timezone = intent.getStringExtra("timezone");
-        locationLabel.setText(timezone);
+        name = intent.getStringExtra("name");
+        code  = intent.getStringExtra("code");
+        locationLabel.setText(code + "/" + name);
 
         DayAdapter adapter = new DayAdapter(this, mDays);
         mListView.setAdapter(adapter);

@@ -12,9 +12,12 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
     List<Address> addresses;
     String name;
     String code;
-
-
+    Handler mHandler;
+    boolean atLeastOnce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,43 +89,77 @@ public class MainActivity extends AppCompatActivity {
         hourlyButton = (Button) findViewById(R.id.hourlyButton);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
         mGeocoder = new Geocoder(this);
+        mHandler = new Handler();
 
         mSwipeRefreshLayout.setProgressViewOffset(false,-150,5);
-        GPS();
+
+
 
         dailyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DailyForecastActivity.class);
-                intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
-                intent.putExtra("timezone", mForecast.getCurrent().getTimeZone());
-                startActivity(intent);
+                if(atLeastOnce) {
+                    Intent intent = new Intent(MainActivity.this, DailyForecastActivity.class);
+                    intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
+                    intent.putExtra("timezone", mForecast.getCurrent().getTimeZone());
+                    intent.putExtra("name", name);
+                    intent.putExtra("code", code);
+                    startActivity(intent);
+                }
+                else{
+                    informUser();
+                }
             }
         });
 
         hourlyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HourlyForecastActivity.class);
-                intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
-                intent.putExtra(HOURLY_DAY_FORECAST,mForecast.getDailyForecast());
-                startActivity(intent);
+                if(atLeastOnce) {
+                    Intent intent = new Intent(MainActivity.this, HourlyForecastActivity.class);
+                    intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
+                    intent.putExtra(HOURLY_DAY_FORECAST, mForecast.getDailyForecast());
+                    startActivity(intent);
+                }
+                else{
+                    informUser();
+                }
             }
         });
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                GPS();
-                getForecast(mLatitude,mLongitude);
-                geoLocation();
+                ifSimplified(1);
             }
         });
 
-        getForecast(mLatitude,mLongitude);
+        ifSimplified(0);
 
-        geoLocation();
     }//onCreate!!
+
+    private void ifSimplified(int i){
+            if(isNetworkAvailable() && isGPSEnabled()){
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        GPS();
+                        getForecast(mLatitude,mLongitude);
+                        geoLocation();
+                        atLeastOnce = true;
+                    }
+                },150);
+            }
+            else{
+                if(i==0) {
+                    checkForAlerts();
+                }
+                else{
+                    stopRefresh();
+                    checkForAlerts();
+                }
+            }
+    }
 
     private void geoLocation() {
         try {
@@ -134,6 +171,10 @@ public class MainActivity extends AppCompatActivity {
             name = addresses.get(0).getLocality();
             code = addresses.get(0).getCountryName();
             Log.d("COUNTRY",name);
+        }
+        if((name == null || name.equals("")) && (code == null || code.equals(""))){
+            name = "-";
+            code = "-";
         }
     }
 
@@ -191,9 +232,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-        } else {
-            alertUserAboutNetwork();
         }
+
     }
 
     private void stopRefresh(){
@@ -317,23 +357,60 @@ public class MainActivity extends AppCompatActivity {
         dialog.show(getFragmentManager(),"AlertAboutNetwork");
     }
 
+    private void alertUserAboutGPS(){
+        GPSAlertDialog dialog = new GPSAlertDialog();
+        dialog.show(getFragmentManager(),"AlertUSerAboutGPS");
+    }
+
+    private void alertUserAboutBoth(){
+        AlertDialogNetGPS dialod = new AlertDialogNetGPS();
+        dialod.show(getFragmentManager(),"AlertUserAboutNetGPS");
+    }
+
+    private void informUser(){
+        InformUserToGetData dialog = new InformUserToGetData();
+        dialog.show(getFragmentManager(),"informUser");
+    }
+
     private void GPS() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.d("MYTAG", "Something went wrong");
 
         } else {
-            locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-            if (locationManager != null) {
-                //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 100, this);
-
-                if(isNetworkAvailable()) {
-                    mLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    mLatitude = mLocation.getLatitude();
-                    mLongitude = mLocation.getLongitude();
-                }
+                mLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                mLatitude = mLocation.getLatitude();
+                mLongitude = mLocation.getLongitude();
             }
         }
+
+
+    private void checkForAlerts() {
+        if(!isNetworkAvailable() && isGPSEnabled()){
+            alertUserAboutNetwork();
+        }
+        else if (!isGPSEnabled() && isNetworkAvailable()){
+            alertUserAboutGPS();
+        }
+        else{
+            alertUserAboutBoth();
+        }
+    }
+
+    private boolean isGPSEnabled(){
+        boolean tf;
+        boolean ft;
+        boolean ret = true;
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        tf = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        ft = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        String locationProviders = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        if(!tf && !ft && (locationProviders == null || locationProviders.equals(""))){
+            ret = false;
+        }
+
+        return ret;
+
     }
 
     @Override
@@ -346,7 +423,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void animate() {
-
         FadeAnimation fadeAnimation = new FadeAnimation();
         fadeAnimation.add(hourlyButton);
         fadeAnimation.add(dailyButton);
@@ -362,6 +438,5 @@ public class MainActivity extends AppCompatActivity {
         AnimatorSet set = fadeAnimation.getAnimatorSet();
         set.start();
     }
-
 
 }

@@ -9,4 +9,7 @@
     <string name="HUMIDITY">HUMIDITY</string>
     <string name="Hourly">Hourly</string>
     <string name="_7_day">7 DAY</string>
+    <string name="error_net_gps">Enable GPS and Network to get forecast details</string>
+    <string name="error_gps">Enable GPS to find current location!</string>
+    <string name="error_net">Network is unavailable!</string>
 </resources>
