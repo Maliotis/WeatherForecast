@@ -47,7 +47,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Athens,GR"/>
 
-    <ListView
+    <ExpandableListView
         android:id="@android:id/list"
         android:layout_width="338dp"
         android:layout_height="445dp"

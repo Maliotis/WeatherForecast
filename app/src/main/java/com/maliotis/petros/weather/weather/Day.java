@@ -14,6 +14,7 @@ public class Day implements Parcelable{
     private double mTemperatureMax;
     private String mICon;
     private String mTimezone;
+    private Hour[] mDayHourByHour;
 
     public long getTime() {
         return mTime;
@@ -66,6 +67,14 @@ public class Day implements Parcelable{
         formatter.setTimeZone(TimeZone.getTimeZone(mTimezone));
         Date dateTime = new Date(mTime * 1000);
         return formatter.format(dateTime);
+    }
+
+    public Hour[] getDayHourByHour(){
+        return mDayHourByHour;
+    }
+
+    public void setDayHourByHour(Hour[] dayHourByHour){
+        mDayHourByHour = dayHourByHour;
     }
 
 

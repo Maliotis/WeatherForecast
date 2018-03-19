@@ -8,6 +8,7 @@ public class Forecast {
     private Hour[] mHourlyForecast;
     private Day[] mDailyForecast;
 
+
     public Current getCurrent() {
         return mCurrent;
     }
@@ -31,6 +32,7 @@ public class Forecast {
     public void setDailyForecast(Day[] dailyForecast) {
         mDailyForecast = dailyForecast;
     }
+
 
     public static int getIconId(String iconString){
         int iconId = R.drawable.clear_day;
