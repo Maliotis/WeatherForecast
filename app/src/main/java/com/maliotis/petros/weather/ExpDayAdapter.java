@@ -71,6 +71,7 @@ public class ExpDayAdapter extends BaseExpandableListAdapter {
             viewHolderG = new ViewHolderG();
             viewHolderG.iconImageView = (ImageView) convertView.findViewById(R.id.iconImageView);
             viewHolderG.temperatureLabel = (TextView) convertView.findViewById(R.id.temperatureLabel);
+            viewHolderG.minTempLabel = convertView.findViewById(R.id.minTempLabel);
             viewHolderG.dayLabel = (TextView) convertView.findViewById(R.id.dayNameLabel);
 
             convertView.setTag(viewHolderG);
@@ -81,8 +82,10 @@ public class ExpDayAdapter extends BaseExpandableListAdapter {
 
         Day day = mDays[groupPosition];
         viewHolderG.iconImageView.setImageResource(day.getIconId());
-        String temp = day.getTemperatureMax()+"";
+        String temp = day.getTemperatureMax()+"°C";
+        String minTemp = day.getTemperatureMin() + "°C";
         viewHolderG.temperatureLabel.setText(temp);
+        viewHolderG.minTempLabel.setText(minTemp);
         if(groupPosition == 0){
             viewHolderG.dayLabel.setText(R.string.Today);
         }
@@ -135,6 +138,7 @@ public class ExpDayAdapter extends BaseExpandableListAdapter {
         ImageView iconImageView;
         TextView temperatureLabel;
         TextView dayLabel;
+        TextView minTempLabel;
     }
 
     private static class ViewHolderChild{

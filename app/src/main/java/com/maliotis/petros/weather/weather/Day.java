@@ -12,6 +12,7 @@ public class Day implements Parcelable{
     private long mTime;
     private String mSummary;
     private double mTemperatureMax;
+    private double mTemperatureMin;
     private String mICon;
     private String mTimezone;
     private Hour[] mDayHourByHour;
@@ -37,9 +38,14 @@ public class Day implements Parcelable{
         return (int) Math.round(mTemperatureMax);
     }
 
+    public void setTemperatureMin(double temperatureMin) {
+        mTemperatureMin = temperatureMin;
+        mTemperatureMin = (mTemperatureMin - 32) / 1.8;
+    }
+
     public void setTemperatureMax(double temperatureMax) {
         mTemperatureMax = temperatureMax;
-        mTemperatureMax = (mTemperatureMax-32)/1.8;
+        mTemperatureMax = (mTemperatureMax - 32) / 1.8;
     }
 
     public String getICon() {
@@ -115,4 +121,8 @@ public class Day implements Parcelable{
             return new Day[size];
         }
     };
+
+    public int getTemperatureMin() {
+        return (int) Math.round(mTemperatureMin);
+    }
 }

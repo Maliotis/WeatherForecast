@@ -8,14 +8,24 @@ import java.util.ArrayList;
 
 public class FadeAnimation {
 
-    ArrayList<ObjectAnimator> mObjectAnimators = new ArrayList<>();
-    AnimatorSet mSet = new AnimatorSet();
+    private ArrayList<ObjectAnimator> mObjectAnimators = new ArrayList<>();
+    private AnimatorSet mSet = new AnimatorSet();
 
     public void add(View view){
         ObjectAnimator objectAnimator = new ObjectAnimator();
         objectAnimator.setTarget(view);
-        objectAnimator.setProperty(view.ALPHA);
+        objectAnimator.setProperty(View.ALPHA);
         objectAnimator.setFloatValues(0.0f,1.0f);
+        objectAnimator.setDuration(1200);
+        mObjectAnimators.add(objectAnimator);
+        addMove(view);
+    }
+
+    private void addMove(View view) {
+        ObjectAnimator objectAnimator = new ObjectAnimator();
+        objectAnimator.setTarget(view);
+        objectAnimator.setProperty(View.TRANSLATION_Y);
+        objectAnimator.setFloatValues(0, -30f);
         objectAnimator.setDuration(1000);
         mObjectAnimators.add(objectAnimator);
     }
@@ -24,7 +34,7 @@ public class FadeAnimation {
         int i;
         int size = mObjectAnimators.size();
         for(i=0 ; i < size ;i++){
-            mSet.playTogether(mObjectAnimators.get(i));
+            mSet.playSequentially(mObjectAnimators.get(i));
         }
         return mSet;
     }

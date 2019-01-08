@@ -49,9 +49,8 @@ public class Main2Activity extends AppCompatActivity {
                     startActivity(intent);
 
                 } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    //exit the app
+                    android.os.Process.killProcess(android.os.Process.myPid());
                 }
                 return;
             }
