@@ -28,18 +28,18 @@ import com.maliotis.petros.weather.weather.Current
 import com.maliotis.petros.weather.weather.Day
 import com.maliotis.petros.weather.weather.Forecast
 import com.maliotis.petros.weather.weather.Hour
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.zipWith
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import okhttp3.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
-import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.zipWith
-import io.reactivex.subjects.PublishSubject
-import io.reactivex.subjects.Subject
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
@@ -85,20 +85,23 @@ class MainActivity : AppCompatActivity() {
 
         // Swipe refresh layout
         mSwipeRefreshLayout.setProgressViewOffset(false, -150, 10)
-        mSwipeRefreshLayout.setOnRefreshListener { checkGpsAndNetwork() }
+        mSwipeRefreshLayout.setOnRefreshListener { getLatestForecastDetails() }
 
         mLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         // expandable list view listeners
         mListView.setOnGroupClickListener { expandableListView, view, i, l ->
             val params = mListView.layoutParams
+            val scale: Float = resources.displayMetrics.density
             if (mListView.isGroupExpanded(i)) {
-                params.height = 952
+                val pixels = (350 * scale + 0.5f).toInt()
+                params.height = pixels
                 mListView.layoutParams = params
                 mListView.requestFocus()
                 mListView.clearFocus()
             } else {
-                params.height = 1540
+                val pixels = (550 * scale + 0.5f).toInt()
+                params.height = pixels
                 mListView.layoutParams = params
                 mListView.requestFocus()
                 mListView.clearFocus()
@@ -108,7 +111,7 @@ class MainActivity : AppCompatActivity() {
 
         hourListForDays = ArrayList()
         addresses = ArrayList()
-        hoursArray = Array(7) { arrayOfNulls<Hour?>(24) }
+        hoursArray = Array(7) { arrayOfNulls<Hour?>(8) }
         mDays = arrayOfNulls(7)
         mHours = arrayOfNulls(48)
         mHoursForToday = arrayOfNulls(48)
@@ -121,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         gpsObservable = PublishSubject.create()
         networkObservable = PublishSubject.create()
         observeGpsAndNetworkChecks()
-        checkGpsAndNetwork()
+        getLatestForecastDetails()
     }
 
     override fun onStop() {
@@ -130,7 +133,10 @@ class MainActivity : AppCompatActivity() {
             gpsAndNetworkDisposable
     }
 
-    fun observeGpsAndNetworkChecks() {
+    /**
+     * Observing changes in network and gps to get the latest forecast
+     */
+    fun observeGpsAndNetworkChecks(): Disposable {
         gpsAndNetworkObservable = gpsObservable.zipWith(networkObservable) { gps, net ->
             Pair<Boolean, Boolean>(gps, net)
         }
@@ -140,16 +146,20 @@ class MainActivity : AppCompatActivity() {
                     if (it.first && it.second) {
                         GPS()
                         getForecastRx(mLatitude, mLongitude)
-                        geoLocation()
+                        geoUserLocation()
                         stopRefresh()
                     } else {
                         checkForAlerts(it)
                     }
                 }
-
+        return gpsAndNetworkDisposable
     }
 
-    private fun checkGpsAndNetwork() {
+    /**
+     * It will then trigger the observeGpsAndNetworkChecks() method reactively
+     * @see observeGpsAndNetworkChecks
+     */
+    private fun getLatestForecastDetails() {
         isGPSEnabled()
         isNetworkAvailable()
     }
@@ -168,7 +178,10 @@ class MainActivity : AppCompatActivity() {
         scrollView = findViewById(R.id.scroll)
     }
 
-    private fun geoLocation() {
+    /**
+     * This method will get the locality and countryName based on the users last location
+     */
+    private fun geoUserLocation() {
         try {
             addresses = mGeocoder!!.getFromLocation(mLatitude, mLongitude, 4)
         } catch (e: IOException) {
@@ -177,7 +190,7 @@ class MainActivity : AppCompatActivity() {
         if (addresses?.isNotEmpty() == true) {
             name = addresses!![0].locality
             code = addresses!![0].countryName
-            Log.d("COUNTRY", name)
+            Log.d("COUNTRY", "$name")
         }
         if ((name == null || name == "") && (code == null || code == "")) {
             name = "-"
@@ -185,6 +198,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * This method creates an Http request to fetch the latest forecast
+     *
+     */
     private fun getForecastRx(lat: Double, long: Double) {
 
         val v = Observable.create<Response> { emitter ->
@@ -236,6 +253,7 @@ class MainActivity : AppCompatActivity() {
                     animate()
                 }
 
+
     }
 
     private fun fillHoursArray() {
@@ -245,13 +263,17 @@ class MainActivity : AppCompatActivity() {
             var j = 0
             if (mDays[i]?.dayHourByHour != null) {
                 while (j < mDays[i]!!.dayHourByHour.size) {
-                    var hour: Hour?
-                    hour = mDays[i]!!.dayHourByHour[j]
+                    val hour: Hour? = mDays[i]!!.dayHourByHour[j]
                     hoursArray[i][g] = hour
                     g++
                     j += 3
                 }
             }
+        }
+        // sort every row
+        for (hArray in hoursArray) {
+            if (!hArray.contains(null))
+                hArray.sort()
         }
     }
 
@@ -267,6 +289,9 @@ class MainActivity : AppCompatActivity() {
         }, 500)
     }
 
+    /**
+     * This method will update the views with the latest information
+     */
     private fun updateDisplay() {
         val current = mForecast!!.current
         val humidity = current.humidity * 100
@@ -481,15 +506,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun animate() {
         val fadeAnimation = FadeAnimation()
-        fadeAnimation.add(mTemperatureLabel)
-        fadeAnimation.add(mPrecipValue)
-        fadeAnimation.add(mHumidityValue)
-        fadeAnimation.add(mIconImageView)
-        fadeAnimation.add(mLocationLabel)
-        fadeAnimation.add(mSummaryLabel)
-        fadeAnimation.add(findViewById(R.id.degreeImageView))
-        fadeAnimation.add(findViewById(R.id.humidityLabel))
-        fadeAnimation.add(findViewById(R.id.precipLabel))
+        fadeAnimation.add(scrollView)
         val set = fadeAnimation.animatorSet
         set.start()
     }
