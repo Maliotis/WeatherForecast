@@ -13,6 +13,7 @@
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
     android:animateLayoutChanges="true"
+    android:background="@drawable/bg_card"
     app:layout_constraintTop_toTopOf="parent">
 
     <androidx.core.widget.NestedScrollView
@@ -26,7 +27,7 @@
             android:id="@+id/ConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_card"
+
             android:focusableInTouchMode="true"
             android:animateLayoutChanges="true"
             >
@@ -37,7 +38,7 @@
                 android:layout_height="16dp"
                 android:layout_below="@id/iconImageView"
                 android:layout_toEndOf="@id/temperatureLabel"
-                android:layout_marginTop="62dp"
+                android:layout_marginTop="50dp"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toRightOf="@+id/temperatureLabel"
                 app:layout_constraintRight_toRightOf="parent"

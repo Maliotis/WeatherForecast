@@ -39,7 +39,7 @@ class KotlinInstrumentedTest {
                     assertEquals(true, it.second)
                 }
 
-        gpsObservable.onNext(false)
+        gpsObservable.onNext(true)
         networkObservable.onNext(true)
     }
 
