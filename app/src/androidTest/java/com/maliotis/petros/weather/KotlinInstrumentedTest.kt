@@ -7,6 +7,7 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.zipWith
+import junit.framework.TestCase.assertEquals
 import org.hamcrest.core.Is.`is`
 import org.junit.Rule
 import org.junit.Test
@@ -28,19 +29,18 @@ class KotlinInstrumentedTest {
     fun testGpsAndNetwork() {
         val gpsObservable = activityRule.activity.gpsObservable
         val networkObservable = activityRule.activity.networkObservable
-        val gpsAndNetworkObservable =  gpsObservable.zipWith(networkObservable) { gps, net ->
+        val gpsAndNetworkObservable = gpsObservable.zipWith(networkObservable) { gps, net ->
             Pair<Boolean, Boolean>(gps, net)
         }
         val gpsAndNetworkDisposable = gpsAndNetworkObservable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    assert(it.first)
-                    assert(it.second)
+                    assertEquals(true, it.first)
+                    assertEquals(true, it.second)
                 }
 
         gpsObservable.onNext(false)
         networkObservable.onNext(true)
-
     }
 
 
