@@ -1,0 +1,40 @@
+
+isquid:CommentedOutCodeLines"<This block of commented-out lines of code should be removed.(Èèýú8™¹½¾ï,
+_squid:HiddenFieldCheckÌ"5Rename "i" which hides the field declared at line 80.(îãÔµ8ÖÃùþî,
+osquid:CommentedOutCodeLineð"<This block of commented-out lines of code should be removed.(áíüÈùÿÿÿÿ8¡˜¼¾ï,
+ squid:S1186š"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ï‚ ‚8ÖÃùþî,
+qsquid:S00117”"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õüº8ÖÃùþî,
+_squid:HiddenFieldCheck™"5Rename "i" which hides the field declared at line 80.(îãÔµ8ÖÃùþî,
+isquid:CommentedOutCodeLine}"<This block of commented-out lines of code should be removed.(Ž®ƒ÷8Ò‰·¾ï,
+osquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¡ôâèüÿÿÿÿ8œ²¸¾ï,
+jsquid:CommentedOutCodeLine°"<This block of commented-out lines of code should be removed.(¤ÄôÀ8ÖÃùþî,
+isquid:CommentedOutCodeLinei"<This block of commented-out lines of code should be removed.(üí•8®ü¼¾ï,
+jsquid:CommentedOutCodeLineŸ"<This block of commented-out lines of code should be removed.(–¹Îà8œ²¸¾ï,
+qsquid:S00117Ò"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸‰¸þ8ÖÃùþî,
+jsquid:CommentedOutCodeLineŽ"<This block of commented-out lines of code should be removed.(ëøßÁ8Ò‰·¾ï,
+nsquid:CommentedOutCodeLineH"<This block of commented-out lines of code should be removed.(ì¥’úùÿÿÿÿ8öÝ½¾ï,
+gsquid:HiddenFieldCheck×"8Rename "call" which hides the field declared at line 87.(ö‚¨ãúÿÿÿÿ8ÖÃùþî,
+dsquid:HiddenFieldCheckÝ"5Rename "i" which hides the field declared at line 80.( ÏÿÉûÿÿÿÿ8ÖÃùþî,
+vsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äòÛœùÿÿÿÿ8ÖÃùþî,
+osquid:CommentedOutCodeLineÏ"<This block of commented-out lines of code should be removed.(åî×ÿÿÿÿÿ8ÖÃùþî,
+Vsquid:S2387M"8"mHandler" is the name of a field in "FragmentActivity".(‡‘Ï€8ÖÃùþî,
+msquid:S1192Ç"IDefine a constant instead of duplicating this literal "timezone" 4 times.(ë—Âÿÿÿÿÿ8ÖÃùþî,
+osquid:CommentedOutCodeLineú"<This block of commented-out lines of code should be removed.(Á–‘Îüÿÿÿÿ8ÖÃùþî,
+asquid:UselessImportCheck"6Remove this unused import 'android.widget.ScrollView'.(êÑ†é8ÖÃùþî,
+Qsquid:S1905e"3Remove this unnecessary cast to "ConstraintLayout".(‘Ç®•8ÖÃùþî,
+lsquid:MaximumInheritanceDepth3"<This class has 7 parents which is greater than 5 authorized.(²Ú±Ž8ÖÃùþî,
+nsquid:S00100ô"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç§¡˜8ÖÃùþî,
+jsquid:CommentedOutCodeLineí"<This block of commented-out lines of code should be removed.(à‰Ñ…8¡˜¼¾ï,
+_squid:HiddenFieldCheck®"5Rename "i" which hides the field declared at line 80.(îãÔµ8ÖÃùþî,
+vsquid:S3776Ž"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(×Ñí‰ùÿÿÿÿ8ÖÃùþî,
+osquid:CommentedOutCodeLineõ"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8¡˜¼¾ï,
+osquid:CommentedOutCodeLineø"<This block of commented-out lines of code should be removed.(€·ÄÃùÿÿÿÿ8ÙŸ¾¾ï,
+lsquid:S1192Ï"HDefine a constant instead of duplicating this literal "summary" 4 times.(‚Üäüÿÿÿÿ8ÖÃùþî,
+osquid:CommentedOutCodeLine‘"<This block of commented-out lines of code should be removed.(åî×ÿÿÿÿÿ8ÖÃùþî,
+Lsquid:S1172©"(Remove this unused method parameter "i".(Ïèˆ¡úÿÿÿÿ8á¤º¾ï,
+psquid:S1192Ð"LDefine a constant instead of duplicating this literal "temperature" 3 times.(÷õÅ°ûÿÿÿÿ8ÖÃùþî,
+isquid:CommentedOutCodeLine{"<This block of commented-out lines of code should be removed.(þŽ¨ð8Ò‰·¾ï,
+Gsquid:S1148¿"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8ÖÃùþî,
+jsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ž®ƒ÷8Ò‰·¾ï,
+vsquid:S00117Í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äòÛœùÿÿÿÿ8ÖÃùþî,
+]squid:UselessImportCheck"2Remove this unused import 'android.os.Parcelable'.(õÃÀ­8ÖÃùþî,

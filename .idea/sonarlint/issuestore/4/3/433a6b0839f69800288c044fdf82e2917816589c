@@ -1,0 +1,9 @@
+
+{squid:S1488"fImmediately return this expression instead of assigning it to the temporary variable "hourViewHolder".(·ßõ¨
+„"squid:ClassVariableVisibilityCheck"SMake mDegree a static final constant or non-public and provide accessors if needed.(Æ¬À¬úÿÿÿÿ
+‚"squid:ClassVariableVisibilityCheck"VMake mTimeLabel a static final constant or non-public and provide accessors if needed.(¥à¢û
+Csquid:S1068")Remove this unused "mDays" private field.(°„œøÿÿÿÿ
+Š"squid:ClassVariableVisibilityCheck"YMake mSummaryLabel a static final constant or non-public and provide accessors if needed.(¬ë©ÿÿÿÿÿ
+‹"squid:ClassVariableVisibilityCheck"ZMake mIconImageView a static final constant or non-public and provide accessors if needed.(³ÈË øÿÿÿÿ
+€"squid:ClassVariableVisibilityCheck"TMake mHourDay a static final constant or non-public and provide accessors if needed.(Ëˆôø
+ˆ"squid:ClassVariableVisibilityCheck"]Make mTemperatureLabel a static final constant or non-public and provide accessors if needed.(ü¹¡r

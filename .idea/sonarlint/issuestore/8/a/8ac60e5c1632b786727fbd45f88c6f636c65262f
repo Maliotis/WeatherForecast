@@ -1,0 +1,26 @@
+
+Ysquid:S1197"8Move the array designator from the variable to the type.(¦¹šûÿÿÿÿ8õ‰ºúî,
+Ysquid:S1197"8Move the array designator from the variable to the type.(æ…©öÿÿÿÿÿ8õ‰ºúî,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÚÈØúÿÿÿÿÿ8õ‰ºúî,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ƒ™üÌÿÿÿÿÿ8õ‰ºúî,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ÌÜ¼£ûÿÿÿÿ8õ‰ºúî,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(åî×ÿÿÿÿÿ8õ‰ºúî,
+lsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(äÂ«øÿÿÿÿ8õ‰ºúî,
+hsquid:HiddenFieldCheck"<Rename "timezone" which hides the field declared at line 47.(ë—Âÿÿÿÿÿ8õ‰ºúî,
+\squid:HiddenFieldCheck"5Rename "i" which hides the field declared at line 52.(îãÔµ8õ‰ºúî,
+asquid:HiddenFieldCheck"5Rename "i" which hides the field declared at line 52.( ÏÿÉûÿÿÿÿ8õ‰ºúî,
+"squid:ClassVariableVisibilityCheck"UMake mListView a static final constant or non-public and provide accessors if needed.(û¬ÑÑùÿÿÿÿ8õ‰ºúî,
+"squid:ClassVariableVisibilityCheck"UMake mTextView a static final constant or non-public and provide accessors if needed.(øîÊ¥ıÿÿÿÿ8õ‰ºúî,
+Œ"squid:ClassVariableVisibilityCheck"YMake locationLabel a static final constant or non-public and provide accessors if needed.(ŠÍğå8õ‰ºúî,
+ssquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(×Ñí‰ùÿÿÿÿ8õ‰ºúî,
+squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ï‚ ‚8õ‰ºúî,
+ssquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äòÛœùÿÿÿÿ8õ‰ºúî,
+nsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õüº8õ‰ºúî,
+rsquid:UselessImportCheck"DRemove this unused import 'android.view.inputmethod.CompletionInfo'.(íìÖ½úÿÿÿÿ8õ‰ºúî,
+]squid:UselessImportCheck"4Remove this unused import 'android.content.Context'.(©Ê‰è8õ‰ºúî,
+Ysquid:UselessImportCheck"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8õ‰ºúî,
+Xsquid:UselessImportCheck"/Remove this unused import 'android.os.Handler'.(ûÛ’¡8õ‰ºúî,
+_squid:UselessImportCheck"6Remove this unused import 'android.provider.Settings'.(Š¯„8õ‰ºúî,
+]squid:UselessImportCheck"4Remove this unused import 'java.util.EventListener'.(óü¬É8õ‰ºúî,
+fsquid:UselessImportCheck"=Remove this unused import 'android.location.LocationManager'.(Ü©ÎÎ8õ‰ºúî,
+osquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(ÏÅÑóøÿÿÿÿ8õ‰ºúî,

@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.maliotis.petros.stormy.HourlyForecastActivity"
+    tools:context="com.maliotis.petros.weather.HourlyForecastActivity"
     android:background="@drawable/wallpaper_night">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="40dp"
@@ -17,6 +17,6 @@
         android:paddingEnd="40dp"
         android:id="@+id/recyclerView">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

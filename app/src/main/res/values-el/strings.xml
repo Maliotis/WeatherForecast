@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Weather Forecast</string>
+    <string name="error_title">Κάτι πήγε στραβά</string>
+    <string name="Today">Σήμερα</string>
+    <string name="RAIN">Βροχή</string>
+    <string name="HUMIDITY">Υγρασία</string>
+    <string name="error_net_gps">Ενεργοποιήστε το gps και το δίκτυο</string>
+    <string name="error_gps">Ενεργοποιήστε το gps</string>
+    <string name="error_net">Το δίκτυο δεν είναι διαθέσιμο</string>
+    <string name="error_message">Υπήρξε πρόβλημα παρακαλώ δοκιμάστε ξανά</string>
+</resources>

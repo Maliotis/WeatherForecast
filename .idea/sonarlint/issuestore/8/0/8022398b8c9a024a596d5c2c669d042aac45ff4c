@@ -1,0 +1,6 @@
+
+Psquid:S1199)"-Extract this nested code block into a method.(·ÿ½äûÿÿÿÿ8¾ø‹÷î,
+[squid:S1197'"8Move the array designator from the variable to the type.(ÿÃ²şÿÿÿÿ8¾ø‹÷î,
+9squid:S36267"Remove this redundant jump.(ûÁİ…8¾ø‹÷î,
+nsquid:S1301("KReplace this "switch" statement by "if" statements to increase readability.(×ö³–úÿÿÿÿ8¾ø‹÷î,
+qsquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(ä¡‹ûÿÿÿÿ8¾ø‹÷î,

@@ -1,12 +1,15 @@
 <resources>
-    <string name="app_name">Weather Forecast</string>
+    <string name="app_name" translatable="false">Weather Forecast</string>
     <string name="error_title">Oops! Sorry!</string>
-    <string name="error_message">There was an error please try again.</string>
-    <string name="error_ok_button">OK</string>
-    <string name="no_daily_forecast_data">There is no data to display.</string>
+    <string name="error_ok_button" translatable="false">OK</string>
+    <string name="no_daily_forecast_data" translatable="false">There is no data to display.</string>
     <string name="Today">Today</string>
     <string name="RAIN">RAIN</string>
     <string name="HUMIDITY">HUMIDITY</string>
-    <string name="Hourly">Hourly</string>
-    <string name="_7_day">7 DAY</string>
+    <string name="Hourly" translatable="false">Hourly</string>
+    <string name="_7_day" translatable="false">7 DAY</string>
+    <string name="error_net_gps">Enable GPS and Network to get forecast details</string>
+    <string name="error_gps">Enable GPS to find current location!</string>
+    <string name="error_net">Network is unavailable!</string>
+    <string name="error_message">There was an error please try again!</string>
 </resources>
