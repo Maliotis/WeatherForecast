@@ -55,8 +55,7 @@
                 android:layout_marginBottom="1dp"
                 android:text="--"
                 android:textColor="#ffffff"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/timeLabel" />
+                android:textSize="20sp" />
 
             <ImageView
                 android:id="@+id/iconImageView"
