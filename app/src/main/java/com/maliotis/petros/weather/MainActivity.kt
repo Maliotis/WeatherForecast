@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     var scrollView: NestedScrollView? = null
     var cardView: CardView? = null
     lateinit var mListView: ExpandableListView
+
     // Forecast
     private var mForecast: Forecast? = null
     lateinit var mDays: Array<Day?>
@@ -62,6 +63,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var mHoursForToday: Array<Hour?>
     var hourListForDays: List<Array<Hour>>? = null
     lateinit var hoursArray: Array<Array<Hour?>>
+
     // Location
     var mLocation: Location? = null
     var locationManager: LocationManager? = null
@@ -71,6 +73,7 @@ class MainActivity : AppCompatActivity() {
     var addresses: List<Address>? = null
     var name: String? = null
     var code: String? = null
+
     // Rx components
     lateinit var gpsAndNetworkDisposable: Disposable
     lateinit var gpsAndNetworkObservable: Observable<Pair<Boolean, Boolean>>
@@ -214,8 +217,8 @@ class MainActivity : AppCompatActivity() {
                 longitude = -122.4233
             }
             val forecastUrl = "https://api.darksky.net/forecast/$ApiKey/$latitude,$longitude?lang=$locale&extend=hourly"
-            val client = OkHttpClient()
             val request = Request.Builder().url(forecastUrl).build()
+            val client = OkHttpClient()
             val call = client.newCall(request)
             call.enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -235,6 +238,9 @@ class MainActivity : AppCompatActivity() {
                         if (response.isSuccessful) {
                             mForecast = parseForecastDetails(jsonData)
                             mHoursForToday = mForecast!!.hourlyForecast
+                            runOnUiThread {
+
+                            }
                         } else {
                             alertUserAboutError()
                         }
@@ -250,6 +256,7 @@ class MainActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { _ ->
                     updateDisplay()
+                    listAdapter(mListView)
                     animate()
                 }
 
@@ -277,9 +284,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun listAdapter() {
+    fun listAdapter(listView: ExpandableListView) {
+        Log.d("TAG", "listAdapter: thread = " + Thread.currentThread().name)
         val expDayAdapter = ExpDayAdapter(this@MainActivity, mDays, hoursArray)
-        mListView.setAdapter(expDayAdapter)
+        listView.setAdapter(expDayAdapter)
     }
 
     private fun stopRefresh() {
@@ -296,18 +304,18 @@ class MainActivity : AppCompatActivity() {
         val current = mForecast!!.current
         val humidity = current.humidity * 100
         val humidityI = humidity.toInt()
-        mTemperatureLabel!!.text = current.temperature.toString() + ""
-        mHumidityValue!!.text = "$humidityI%"
-        mPrecipValue!!.text = current.precipChance.toString() + "%"
-        mSummaryLabel!!.text = current.summary
-        mLocationLabel!!.text = current.timeZone
-        mLocationLabel!!.text = "$name,$code"
+        mTemperatureLabel.text = current.temperature.toString()
+        mHumidityValue.text = "$humidityI%"
+        mPrecipValue.text = current.precipChance.toString() + "%"
+        mSummaryLabel.text = current.summary
+        mLocationLabel.text = current.timeZone
+        mLocationLabel.text = "$name,$code"
         val drawable = resources.getDrawable(current.iconId)
-        mIconImageView!!.setImageDrawable(drawable)
+        mIconImageView.setImageDrawable(drawable)
     }
 
     @Throws(JSONException::class)
-    private fun parseForecastDetails(jsonData: String): Forecast {
+    fun parseForecastDetails(jsonData: String): Forecast {
         val forecast = Forecast()
         forecast.current = getCurrentDetails(jsonData)
         forecast.dailyForecast = getDailyForecast(jsonData)
@@ -376,9 +384,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         fillHoursArray()
-        runOnUiThread {
-            listAdapter()
-        }
 
         return hours
     }
